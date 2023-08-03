@@ -1,0 +1,6 @@
+.header__nav {
+  display: flex;
+  gap: 24px;
+  padding-top: 5px;
+}
+

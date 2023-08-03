@@ -1,0 +1,19 @@
+.profile__main-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    margin: 25.25px 0 9px;
+    padding: 0;
+    box-sizing:border-box;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+@media screen and (min-width: 560px) {
+    .profile__main-line {
+      margin: 0 0 16px;
+      gap: 18px;
+    }
+}

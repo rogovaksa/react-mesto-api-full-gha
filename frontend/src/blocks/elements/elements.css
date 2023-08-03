@@ -1,0 +1,18 @@
+.elements {
+    margin: 36px auto 48px;
+    padding: 0 19px;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+    justify-items: center;
+    row-gap: 20px;
+    column-gap: 17px;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 899px) {
+    .elements {
+        margin: 51px auto 67px;
+        padding: 0;
+    }
+}

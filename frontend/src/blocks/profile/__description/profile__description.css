@@ -1,0 +1,29 @@
+.profile__description {
+    font-family: 'Inter', ‘Arial’, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    align-self: center;
+    margin: 0 0 32px;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing:border-box;
+}
+
+@media screen and (min-width: 560px) {
+    .profile__description {
+        align-self: flex-start;
+    }
+}
+
+@media screen and (min-width: 880px) {
+    .profile__description {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 0;
+    }
+}

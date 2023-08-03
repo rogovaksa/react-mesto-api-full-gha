@@ -1,0 +1,13 @@
+.popup__error {
+  box-sizing: border-box;
+  margin: 5px 0 0;
+  font-family: 'Inter', ‘Arial’, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  height: 12px;
+  line-height: 14.52px;
+  color: #ff0000;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
