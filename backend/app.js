@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 
 const errorsMiddleware = require('./middlewares/errors');
 const limiter = require('./middlewares/rateLimit');
@@ -24,6 +25,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 });
 
 const app = express();
+
+app.use(cors());
 
 // app.use(express.json());
 
