@@ -1,4 +1,4 @@
-const BASE_URL = "https://auth.nomoreparties.co";
+const BASE_URL = "http://localhost:3000";
 
 const BASE_HEADERS = {
   Accept: "application/json",
@@ -37,7 +37,8 @@ export const authorize = (password, email) => {
   });
 };
 
-export const checkToken = (token) => {
+export const checkToken = () => {
+  const token = localStorage.getItem('jwt');
   return request(`users/me`, {
     method: "GET",
     headers: {

@@ -49,6 +49,8 @@ const [isInfoTooltip, setIsInfoTooltip] = useState(false);
 // }, []);
 
 useEffect(() => {
+  const token = localStorage.getItem('jwt');
+  if (token) {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
@@ -57,6 +59,7 @@ useEffect(() => {
       })
       .catch((err) => console.log(err));
   }
+}
 }, [isLoggedIn]);
 
 useEffect(() => {
@@ -175,12 +178,12 @@ function handleLogOut() {
 }
 
 function handleCheckToken() {
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) {
+  const token = localStorage.getItem('jwt');
+  if (token) {
     auth
-      .checkToken(jwt)
-      .then(({ data }) => {
-        setUserEmail(data.email);
+      .checkToken()
+      .then((res) => {
+        setUserEmail(res.email);
         setIsLoggedIn(true);
         navigate('/', { replace: true });
       })

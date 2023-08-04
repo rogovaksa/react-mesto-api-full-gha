@@ -1,7 +1,6 @@
 class Api {
-  constructor(apidata) {
-    this._address = apidata.baseUrl;
-    this._headers = apidata.headers;
+  constructor({baseUrl}) {
+    this._address = baseUrl;
   }
 
   _checkResponse(res) {
@@ -12,16 +11,22 @@ class Api {
   }
 
   getUserInfo() {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me`, {
       method: 'GET',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 
   getInitialCards() {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards`, {
       method: 'GET',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 
@@ -30,9 +35,13 @@ class Api {
   }
 
   patchAvatar(src) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
       body: JSON.stringify({
         avatar: src,
       })
@@ -40,9 +49,13 @@ class Api {
   }
 
   patchUserInfo(data) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -51,9 +64,13 @@ class Api {
   }
 
   createNewCard(data) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -62,41 +79,56 @@ class Api {
   }
 
   deleteCard(cardId) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 
   likeCard(cardId) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}/likes`, {
       method: 'PUT',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
     }).then(this._checkResponse);
   }
 
   dislikeCard(cardId) {
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}/likes`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(id, isLiked) {
-    return fetch(`${this._address}/cards/likes/${id}`, {
+    const token = localStorage.getItem('jwt');
+    return fetch(`${this._address}/cards/${id}/likes`, {
       method: isLiked ? 'PUT' : 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type':'application/json',
+      },
     }).then(this._checkResponse);
   }
 
 };
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-64',
-  headers: {
-    authorization: 'd98ad6b2-d69e-45ea-bfbc-28681934b055',
-    'Content-Type': 'application/json'
-  }
+  baseUrl: 'http://localhost:3000',
+  // headers: {
+  //   authorization: 'd98ad6b2-d69e-45ea-bfbc-28681934b055',
+  //   'Content-Type': 'application/json'
+  // }
 });
 
 export default api;

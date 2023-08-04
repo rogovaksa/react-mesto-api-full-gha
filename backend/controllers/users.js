@@ -17,7 +17,7 @@ const getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
     .then((user) => {
-      if (user) return res.send({ user });
+      if (user) return res.send(user);
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
     .catch((err) => {
@@ -73,7 +73,7 @@ const updateUserProfile = (req, res, next) => {
 
   User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
-      if (user) return res.send({ user });
+      if (user) return res.send(user);
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
     .catch((err) => {
@@ -91,7 +91,7 @@ const updateUserAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => {
-      if (user) return res.send({ user });
+      if (user) return res.send(user);
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
     .catch((err) => {
@@ -114,7 +114,7 @@ const login = (req, res, next) => {
           { expiresIn: '7d' },
         );
 
-        return res.send({ _id: token });
+        return res.send({ token });
       }
 
       throw new UnauthorizedError('Неправильные почта или пароль');
@@ -126,7 +126,7 @@ const getCurrentUser = (req, res, next) => {
   const { userId } = req.user;
   User.findById(userId)
     .then((user) => {
-      if (user) return res.send({ user });
+      if (user) return res.send(user);
 
       throw new NotFoundError('Пользователь с указанным id не найден');
     })

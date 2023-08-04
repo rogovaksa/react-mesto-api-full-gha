@@ -7,7 +7,7 @@ const InaccurateDataError = require('../errors/InaccurateDataError');
 const getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -15,7 +15,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { userId } = req.user;
   Card.create({ name, link, owner: userId })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при создании карточки'));
@@ -29,6 +29,7 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { userId } = req.user;
   Card.findById(cardId)
+    .populate(['likes', 'owner'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
@@ -57,8 +58,9 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
+    .populate(['likes', 'owner'])
     .then((card) => {
-      if (card) return res.send({ data: card });
+      if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');
     })
     .catch((err) => {
@@ -78,8 +80,9 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: userId } },
     { new: true },
   )
+    .populate(['likes', 'owner'])
     .then((card) => {
-      if (card) return res.send({ data: card });
+      if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');
     })
     .catch((err) => {
