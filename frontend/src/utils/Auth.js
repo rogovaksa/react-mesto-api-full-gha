@@ -38,8 +38,8 @@ export const authorize = (email, password) => {
   });
 };
 
-export const checkToken = () => {
-  const token = localStorage.getItem('jwt');
+export const checkToken = (token) => {
+  // const token = localStorage.getItem('jwt');
   return request(`users/me`, {
     method: "GET",
     headers: {

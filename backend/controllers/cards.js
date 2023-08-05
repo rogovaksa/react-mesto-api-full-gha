@@ -6,7 +6,7 @@ const InaccurateDataError = require('../errors/InaccurateDataError');
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .populate(['owner', 'likes'])
+    // .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -17,7 +17,7 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: userId })
     .then((card) => {
       card
-        .populate('owner')
+        // .populate('owner')
         .then(() => res.status(201).send(card))
         .catch(next);
     })
@@ -61,7 +61,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
-    .populate(['owner', 'likes'])
+    // .populate(['owner', 'likes'])
     .then((card) => {
       if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');
@@ -83,7 +83,7 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: userId } },
     { new: true },
   )
-    .populate(['owner', 'likes'])
+    // .populate(['owner', 'likes'])
     .then((card) => {
       if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');

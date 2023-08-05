@@ -34,8 +34,8 @@ const [userEmail, setUserEmail] = useState('');
 const [isInfoTooltip, setIsInfoTooltip] = useState(false);
 
 useEffect(() => {
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) {
+  const token = localStorage.getItem('token');
+  if (token) {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
@@ -49,6 +49,7 @@ useEffect(() => {
 
 useEffect(() => {
   handleCheckToken();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
 function handleEditProfileClick() {
@@ -80,11 +81,11 @@ function closeAllPopups() {
 }
 
 function handleCardLike(card) {
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const isLiked = card.likes.some(i => i === currentUser._id);
   
   api.changeLikeCardStatus(card._id, !isLiked)
   .then((newCard) => {
-    setCards(state => state.map(c => c._id === card._id ? newCard : c));
+    setCards(state => state.map(c => c === card._id ? newCard : c));
   })
   .catch((err) => { console.log(err) }
   );
@@ -144,7 +145,7 @@ function handleRegister(data) {
 function handleLogin(data) {
   auth.authorize(data.email, data.password)
     .then((data) => {
-      localStorage.setItem('jwt', data.jwt);
+      localStorage.setItem('jwt', data.token);
       setIsLoggedIn(true);
       navigate('/', { replace: true });
     })
@@ -163,10 +164,10 @@ function handleLogOut() {
 }
 
 function handleCheckToken() {
-  const token = localStorage.getItem('jwt');
-  if (token) {
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) {
     auth
-      .checkToken()
+      .checkToken(jwt)
       .then((res) => {
         setUserEmail(res.email);
         setIsLoggedIn(true);

@@ -9,6 +9,8 @@ const cors = require('cors');
 const errorsMiddleware = require('./middlewares/errors');
 const limiter = require('./middlewares/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const corsMiddleware = require('./middlewares/cors');
+
 const NotFoundError = require('./errors/NotFoundError');
 
 const signupRouter = require('./routes/signup');
@@ -43,6 +45,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(limiter);
+
+app.use(corsMiddleware);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
