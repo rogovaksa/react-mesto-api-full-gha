@@ -6,9 +6,10 @@ export function Register(props) {
     const [formData, setFormData] = useState({email: '', password: '' });
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({ 
-            ...formData, 
-            [e.target.name]: e.target.value 
+            ...formData,
+            [name]: value,
         });
     };
 
@@ -44,7 +45,7 @@ export function Register(props) {
                 required
             />
             <button className='auth__btn-submit' type='submit' >Зарегистрироваться</button>
-            <Link to='/sign-in' className='auth__link'>Уже зарегистрированы? Войти</Link>
+            <Link to='/signin' className='auth__link'>Уже зарегистрированы? Войти</Link>
         </form>
     </section>
     );
