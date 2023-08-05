@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -21,7 +22,11 @@ const cardsRouter = require('./routes/cards');
 const { PORT = 3000 } = process.env;
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+// mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+//   useNewUrlParser: true,
+// });
+
+mongoose.connect(process.env.DB_ADDRESS, {
   useNewUrlParser: true,
 });
 
@@ -39,6 +44,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(limiter);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use('/', signupRouter);
 app.use('/', signinRouter);
