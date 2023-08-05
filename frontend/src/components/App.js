@@ -54,8 +54,8 @@ useEffect(() => {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
-        setCurrentUser(currentUser);
-        setCards(cards);
+        setCurrentUser(currentUser.user);
+        setCards(cards.data);
       })
       .catch((err) => console.log(err));
   }
@@ -99,7 +99,7 @@ function handleCardLike(card) {
   
   api.changeLikeCardStatus(card._id, !isLiked)
   .then((newCard) => {
-    setCards(state => state.map(c => c._id === card._id ? newCard : c));
+    setCards(state => state.map(c => c._id === card._id ? newCard.data : c));
   })
   .catch((err) => { console.log(err) }
   );
@@ -137,7 +137,7 @@ function handleUpdateAvatar(src) {
 function handleAddPlaceSubmit(data) {
   api.createNewCard(data)
   .then((newCard) => {
-    setCards([newCard, ...cards])
+    setCards([newCard.data, ...cards])
     closeAllPopups()
   })
   .catch((err) => { console.log(err) });
@@ -159,7 +159,7 @@ function handleRegister(data) {
 function handleLogin(data) {
   auth.authorize(data.password, data.email)
     .then((data) => {
-      localStorage.setItem('jwt', data.token);
+      localStorage.setItem('jwt', data._id);
       setIsLoggedIn(true);
       navigate('/', { replace: true });
     })
