@@ -19,6 +19,8 @@ const authMiddleware = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
+const { DB_ADDRESS } = require('./utils/link');
+
 const { PORT = 3000 } = process.env;
 
 mongoose.set('strictQuery', true);
@@ -26,9 +28,7 @@ mongoose.set('strictQuery', true);
 //   useNewUrlParser: true,
 // });
 
-mongoose.connect(process.env.DB_ADDRESS, {
-  useNewUrlParser: true,
-});
+mongoose.connect(DB_ADDRESS);
 
 const app = express();
 

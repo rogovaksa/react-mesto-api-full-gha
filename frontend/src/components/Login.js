@@ -6,15 +6,17 @@ export function Login(props) {
     const [formData, setFormData] = useState({ email: '', password: '' });
 
     const handleChange = (e) => {
+      const { name, value } = e.target;
         setFormData({ 
             ...formData, 
-            [e.target.name]: e.target.value 
+            [name]: value, 
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         props.handleLogin(formData);
+        setFormData({ email: "", password: "" });
     };
   
     return (

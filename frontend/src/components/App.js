@@ -49,8 +49,8 @@ const [isInfoTooltip, setIsInfoTooltip] = useState(false);
 // }, []);
 
 useEffect(() => {
-  const token = localStorage.getItem('jwt');
-  if (token) {
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
@@ -157,9 +157,9 @@ function handleRegister(data) {
 }
 
 function handleLogin(data) {
-  auth.authorize(data.password, data.email)
+  auth.authorize(data.email, data.password)
     .then((data) => {
-      localStorage.setItem('jwt', data.token);
+      localStorage.setItem('jwt', data.jwt);
       setIsLoggedIn(true);
       navigate('/', { replace: true });
     })

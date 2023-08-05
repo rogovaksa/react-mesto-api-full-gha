@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 
 export function Register(props) {
     
-    const [formValue, setFormData] = useState({email: '', password: '' });
+    const [formData, setFormData] = useState({email: '', password: '' });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ 
-            ...formValue,
-            [name]: value,e 
+            ...formData,
+            [name]: value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.handleRegister(formValue);
+        props.handleRegister(formData);
     };
 
     return (
@@ -23,7 +23,7 @@ export function Register(props) {
         <h2 className='auth__title'>Регистрация</h2>
         <form onSubmit={handleSubmit} className='auth__form' name='auth-login'>
             <input
-                value={formValue.email}
+                value={formData.email}
                 onChange={handleChange}
                 className='auth__input'
                 name='email'
@@ -34,7 +34,7 @@ export function Register(props) {
                 required
             />
             <input
-                value={formValue.password}
+                value={formData.password}
                 onChange={handleChange}
                 className='auth__input'
                 name='password'
@@ -45,7 +45,7 @@ export function Register(props) {
                 required
             />
             <button className='auth__btn-submit' type='submit' >Зарегистрироваться</button>
-            <Link to='/sign-in' className='auth__link'>Уже зарегистрированы? Войти</Link>
+            <Link to='/signin' className='auth__link'>Уже зарегистрированы? Войти</Link>
         </form>
     </section>
     );
