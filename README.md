@@ -5,11 +5,11 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/rogovaksa/react-mesto-api-full-gha
 
 ## Ссылки на проект
 
-IP-адрес 51.250.86.177
+IP 51.250.86.177
 
 Frontend https://rogovaksa.nomoreparties.co
 
