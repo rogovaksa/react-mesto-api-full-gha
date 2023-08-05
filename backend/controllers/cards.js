@@ -15,7 +15,12 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { userId } = req.user;
   Card.create({ name, link, owner: userId })
-    .then((card) => res.status(201).send(card))
+    .then((card) => {
+      card
+        .populate('owner')
+        .then(() => res.status(201).send(card))
+        .catch(next);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при создании карточки'));
@@ -29,14 +34,12 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { userId } = req.user;
   Card.findById(cardId)
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
       }
-      if (!card.owner.equals(userId)) {
-        throw new ForbiddenError('Вы можете удалять только свои карточки');
-      }
+      const { owner: cardOwnerId } = card;
+      if (cardOwnerId.valueOf() !== userId) throw new ForbiddenError('Вы можете удалять только свои карточки');
       card.deleteOne()
         .then(() => res.status(200).send({ message: 'Карточка удалена' }))
         .catch(next);
@@ -58,7 +61,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');
@@ -80,7 +83,7 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: userId } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (card) return res.send(card);
       throw new NotFoundError('Карточка не найдена');

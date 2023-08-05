@@ -99,7 +99,7 @@ function handleCardLike(card) {
   
   api.changeLikeCardStatus(card._id, !isLiked)
   .then((newCard) => {
-    setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    setCards(state => state.map(c => c._id === card._id ? newCard : c));
   })
   .catch((err) => { console.log(err) }
   );
@@ -108,7 +108,7 @@ function handleCardLike(card) {
 function handleCardDelete(card) {
   api.deleteCard(card._id)
   .then(() => {
-    setCards(cards => cards.filter((c) => c._id !== card._id));
+    setCards(state => state.filter(c => c._id !== card._id));
     // closeAllPopups();
   })
   .catch((err) => { console.log(err) }
@@ -178,10 +178,10 @@ function handleLogOut() {
 }
 
 function handleCheckToken() {
-  const token = localStorage.getItem('jwt');
-  if (token) {
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) {
     auth
-      .checkToken()
+      .checkToken(jwt)
       .then((res) => {
         setUserEmail(res.email);
         setIsLoggedIn(true);

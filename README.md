@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 51.250.86.177
 
-Frontend https://...
+Frontend https://rogovaksa.nomoreparties.co
 
-Backend https://...
+Backend https://api.rogovaksa.nomoreparties.co

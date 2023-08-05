@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://api.rogovaksa.nomoreparties.co";
 
 const BASE_HEADERS = {
   Accept: "application/json",
@@ -38,7 +39,7 @@ export const authorize = (password, email) => {
 };
 
 export const checkToken = () => {
-  const token = localStorage.getItem('jwt');
+  const token = localStorage.getItem('token');
   return request(`users/me`, {
     method: "GET",
     headers: {

@@ -105,7 +105,7 @@ const updateUserAvatar = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
+  User.findUserByCredentials(email, password)
     .then(({ _id: userId }) => {
       if (userId) {
         const token = jwt.sign(
@@ -123,7 +123,7 @@ const login = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
   User.findById(userId)
     .then((user) => {
       if (user) return res.send(user);

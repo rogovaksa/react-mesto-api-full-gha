@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const errorsMiddleware = require('./middlewares/errors');
 const limiter = require('./middlewares/rateLimit');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError');
 
 const signupRouter = require('./routes/signup');
@@ -35,6 +36,8 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(requestLogger);
+
 app.use(limiter);
 
 app.use('/', signupRouter);
@@ -46,6 +49,8 @@ app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
 app.use((req, res, next) => next(new NotFoundError('Неправильный путь')));
+
+app.use(errorLogger);
 
 app.use(errors());
 
