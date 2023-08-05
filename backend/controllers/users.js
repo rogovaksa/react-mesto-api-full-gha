@@ -125,7 +125,7 @@ const login = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => {
-  const { userId } = req.params;
+  const { userId } = req.user;
   User.findById(userId)
     .then((user) => {
       if (user) return res.send(user);

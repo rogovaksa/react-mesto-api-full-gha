@@ -25,8 +25,7 @@ function Card(props) {
     function handleLikeClick() {
         props.onCardLike(props.card);
     }
-
-    return (
+        return (
         <article id='element-template'>
             <div className='element'>
             <img className='element__picture' src={props.card.link} alt={props.card.name} onClick={handleClick} />

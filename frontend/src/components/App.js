@@ -34,28 +34,14 @@ const [isLoggedIn, setIsLoggedIn] = useState();
 const [userEmail, setUserEmail] = useState('');
 const [isInfoTooltip, setIsInfoTooltip] = useState(false);
 
-// useEffect(() => {
-//   api.getUserInfo()
-//   .then((data) => {
-//     setCurrentUser(data);
-//   })
-//   .catch((err) => { console.log(err) });
-
-//   api.getInitialCards()
-//   .then((cards) => {
-//     setCards(cards)
-//   })
-//   .catch((err) => { console.log(err) });
-// }, []);
-
 useEffect(() => {
-  const token = localStorage.getItem('jwt');
-  if (token) {
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
         setCurrentUser(currentUser.user);
-        setCards(cards.data);
+        setCards(cards);
       })
       .catch((err) => console.log(err));
   }
@@ -118,7 +104,7 @@ function handleCardDelete(card) {
 function handleUpdateUser(data) {
   api.patchUserInfo(data)
   .then((res) => {
-    setCurrentUser(res)
+    setCurrentUser(res.user)
     closeAllPopups()
   })
   .catch((err) => { console.log(err) }
@@ -128,7 +114,7 @@ function handleUpdateUser(data) {
 function handleUpdateAvatar(src) {
   api.patchAvatar(src)
   .then((res) => {
-    setCurrentUser(res)
+    setCurrentUser(res.user)
     closeAllPopups()
   })
   .catch((err) => { console.log(err) });
@@ -159,7 +145,7 @@ function handleRegister(data) {
 function handleLogin(data) {
   auth.authorize(data.password, data.email)
     .then((data) => {
-      localStorage.setItem('jwt', data._id);
+      localStorage.setItem('jwt', data.token);
       setIsLoggedIn(true);
       navigate('/', { replace: true });
     })
