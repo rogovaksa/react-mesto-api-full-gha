@@ -40,7 +40,7 @@ useEffect(() => {
   if (isLoggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([currentUser, cards]) => {
-        setCurrentUser(currentUser.user);
+        setCurrentUser(currentUser);
         setCards(cards);
       })
       .catch((err) => console.log(err));
@@ -85,7 +85,7 @@ function handleCardLike(card) {
   
   api.changeLikeCardStatus(card._id, !isLiked)
   .then((newCard) => {
-    setCards(state => state.map(c => c._id === card._id ? newCard.data : c));
+    setCards(state => state.map(c => c._id === card._id ? newCard : c));
   })
   .catch((err) => { console.log(err) }
   );
@@ -104,7 +104,7 @@ function handleCardDelete(card) {
 function handleUpdateUser(data) {
   api.patchUserInfo(data)
   .then((res) => {
-    setCurrentUser(res.user)
+    setCurrentUser(res)
     closeAllPopups()
   })
   .catch((err) => { console.log(err) }
@@ -114,7 +114,7 @@ function handleUpdateUser(data) {
 function handleUpdateAvatar(src) {
   api.patchAvatar(src)
   .then((res) => {
-    setCurrentUser(res.user)
+    setCurrentUser(res)
     closeAllPopups()
   })
   .catch((err) => { console.log(err) });
@@ -123,7 +123,7 @@ function handleUpdateAvatar(src) {
 function handleAddPlaceSubmit(data) {
   api.createNewCard(data)
   .then((newCard) => {
-    setCards([newCard.data, ...cards])
+    setCards([newCard, ...cards])
     closeAllPopups()
   })
   .catch((err) => { console.log(err) });

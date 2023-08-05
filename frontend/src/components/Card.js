@@ -7,6 +7,11 @@ function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
     
     const isOwn = props.card.owner._id === currentUser._id;
+    console.log('---------');
+    console.log(props.card);
+    
+    console.log(currentUser);
+    console.log('---------');
 
     const isLiked = props.card.likes.some(i => i._id === currentUser._id);
 
