@@ -39,7 +39,7 @@ export const authorize = (password, email) => {
 };
 
 export const checkToken = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('jwt');
   return request(`users/me`, {
     method: "GET",
     headers: {

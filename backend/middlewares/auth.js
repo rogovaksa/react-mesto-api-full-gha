@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const { NODE_ENV, JWT_SECRET } = require('../utils/link');
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
@@ -12,7 +13,7 @@ const authMiddleware = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'JWT_SECRET');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
     throw new UnauthorizedError('Неверно указаны почта или пароль');
   }

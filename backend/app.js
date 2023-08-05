@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -18,12 +19,15 @@ const authMiddleware = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
+const { DB_ADDRESS } = require('./utils/link');
+
 const { PORT = 3000 } = process.env;
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
-});
+// mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+//   useNewUrlParser: true,
+// });
+mongoose.connect(DB_ADDRESS);
 
 const app = express();
 

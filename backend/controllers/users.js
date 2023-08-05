@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
+const { NODE_ENV, JWT_SECRET } = require('../utils/link');
+
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
@@ -110,7 +112,7 @@ const login = (req, res, next) => {
       if (userId) {
         const token = jwt.sign(
           { userId },
-          'JWT_SECRET',
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
           { expiresIn: '7d' },
         );
 

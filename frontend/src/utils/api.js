@@ -11,21 +11,21 @@ class Api {
   }
 
   getUserInfo() {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
       },
     }).then(this._checkResponse);
   }
 
   getInitialCards() {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
       },
     }).then(this._checkResponse);
   }
@@ -35,11 +35,11 @@ class Api {
   }
 
   patchAvatar(src) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
       body: JSON.stringify({
@@ -49,11 +49,11 @@ class Api {
   }
 
   patchUserInfo(data) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
       body: JSON.stringify({
@@ -64,11 +64,11 @@ class Api {
   }
 
   createNewCard(data) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards`, {
       method: 'POST',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
       body: JSON.stringify({
@@ -79,43 +79,43 @@ class Api {
   }
 
   deleteCard(cardId) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
       },
     }).then(this._checkResponse);
   }
 
   likeCard(cardId) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
     }).then(this._checkResponse);
   }
 
   dislikeCard(cardId) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(id, isLiked) {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return fetch(`${this._address}/cards/${id}/likes`, {
       method: isLiked ? 'PUT' : 'DELETE',
       headers: {
-        authorization: `Bearer ${jwt}`,
+        authorization: `Bearer ${token}`,
         'Content-Type':'application/json',
       },
     }).then(this._checkResponse);

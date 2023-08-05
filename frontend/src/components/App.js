@@ -17,7 +17,6 @@ import { InfoTooltip } from './InfoTooltip';
 import * as auth from './../utils/Auth';
 import header__logo from '.././images/header__logo.svg';
 
-
 function App() {
 
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -33,20 +32,6 @@ const navigate = useNavigate();
 const [isLoggedIn, setIsLoggedIn] = useState();
 const [userEmail, setUserEmail] = useState('');
 const [isInfoTooltip, setIsInfoTooltip] = useState(false);
-
-// useEffect(() => {
-//   api.getUserInfo()
-//   .then((data) => {
-//     setCurrentUser(data);
-//   })
-//   .catch((err) => { console.log(err) });
-
-//   api.getInitialCards()
-//   .then((cards) => {
-//     setCards(cards)
-//   })
-//   .catch((err) => { console.log(err) });
-// }, []);
 
 useEffect(() => {
   const token = localStorage.getItem('jwt');
@@ -178,10 +163,10 @@ function handleLogOut() {
 }
 
 function handleCheckToken() {
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) {
+  const token = localStorage.getItem('jwt');
+  if (token) {
     auth
-      .checkToken(jwt)
+      .checkToken()
       .then((res) => {
         setUserEmail(res.email);
         setIsLoggedIn(true);
