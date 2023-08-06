@@ -5,7 +5,7 @@ const User = require('../models/user');
 const { NODE_ENV, JWT_SECRET } = require('../utils/constants');
 
 const NotFoundError = require('../errors/NotFoundError');
-const UnauthorizedError = require('../errors/UnauthorizedError');
+// const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
 const InaccurateDataError = require('../errors/InaccurateDataError');
 
@@ -79,7 +79,7 @@ const updateUserProfile = (req, res, next) => {
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при обновлении профиля пользователя'));
       } else {
         next(err);
@@ -97,7 +97,7 @@ const updateUserAvatar = (req, res, next) => {
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при обновлении профиля пользователя'));
       } else {
         next(err);
@@ -109,17 +109,12 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then(({ _id: userId }) => {
-      if (userId) {
-        const token = jwt.sign(
-          { userId },
-          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-          { expiresIn: '7d' },
-        );
-
-        return res.send({ token });
-      }
-
-      throw new UnauthorizedError('Неправильные почта или пароль');
+      const token = jwt.sign(
+        { userId },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+      return res.send({ token });
     })
     .catch(next);
 };
@@ -132,13 +127,7 @@ const getCurrentUser = (req, res, next) => {
 
       throw new NotFoundError('Пользователь с указанным id не найден');
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new InaccurateDataError('Передан некорректный id'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 module.exports = {
