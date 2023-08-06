@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const { URL_REGEX } = require('../utils/link');
 
-const InaccurateDataError = require('../errors/InaccurateDataError');
+// const InaccurateDataError = require('../errors/InaccurateDataError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema(
@@ -64,7 +64,7 @@ const userSchema = new mongoose.Schema(
             }
 
             return Promise.reject(
-              new InaccurateDataError('Неправильные почта или пароль'),
+              new UnauthorizedError('Неправильные почта или пароль'),
             );
           });
       },
